@@ -1,4 +1,4 @@
-# Y2MATE
+# YTMATE
 
 - Bhai dekh videos chahiye in the best possible quality isliye banaya hai
 
