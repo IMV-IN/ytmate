@@ -32,15 +32,36 @@ while(True):
 
         for url in playlist.video_urls:
             playlist_videos.append(url)
-        
-        for video in playlist_videos:
 
+        sameItag = [-1,1]
+        no_of_videos = len(playlist_videos)
+        index=0
+        for video in playlist_videos:
+            index=index+1
+            print("")
+            print("{} of {}".format(index, no_of_videos))
             yt = py.YouTube(url=video)
             print(yt.title)
 
-            os.system("pytube {} --list".format(video))
-            InputItag = int(input("Enter the itag: "))
+            if sameItag[0] == 1:
+                InputItag = sameItag[1]
+            elif sameItag[0] == 0:
+                os.system("pytube {} --list".format(video))
+                InputItag = int(input("Enter the itag(Enter -1 to skip this video): "))
+            if sameItag[0] == -1:
+                sameItag[0] = int(input("Do you want to keep this setting for all the videos(1-Yes/0-No)"))
+                if sameItag[0] == 1:
+                    os.system("pytube {} --list".format(video))
+                    sameItag[1] = InputItag = int(input("Enter the itag: "))
+                elif sameItag[0] == 0:
+                    os.system("pytube {} --list".format(video))
+                    InputItag = int(input("Enter the itag(Enter -1 to skip this video): "))
 
+            if InputItag == -1:
+                os.system("cls")
+                print("skipping {}".format(yt.title))
+                continue
+            
             os.system("pytube {} --itag={}".format(video,InputItag))
     
     elif choice == 3:
