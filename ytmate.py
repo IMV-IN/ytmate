@@ -91,7 +91,7 @@ while(True):
                 continue
             
             #Downloading the video
-            os.system("cd {} && pytube {} --itag={}".format(playlist.title, video, InputItag))
+            os.system("pytube {} --itag={} --target {}".format(video, InputItag, playlist.title))
     
     elif choice == 3:
 
