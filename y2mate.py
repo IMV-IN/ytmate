@@ -33,21 +33,32 @@ while(True):
         for url in playlist.video_urls:
             playlist_videos.append(url)
 
+        #same Itage function: sameItag[0] flag, and sameItag[1] = value of Itag 
         sameItag = [-1,1]
+
+        #-------------------------------------------------------------
+        #No of videos to create indexing when downloading via playlist
         no_of_videos = len(playlist_videos)
         index=0
+        #-------------------------------------------------------------
+
         for video in playlist_videos:
+            #Indexing at the top of every video
             index=index+1
             print("")
             print("{} of {}".format(index, no_of_videos))
+
+            #Print the title
             yt = py.YouTube(url=video)
             print(yt.title)
 
+            #Checking the sameItag flag
             if sameItag[0] == 1:
                 InputItag = sameItag[1]
             elif sameItag[0] == 0:
                 os.system("pytube {} --list".format(video))
                 InputItag = int(input("Enter the itag(Enter -1 to skip this video): "))
+            #use for first time set-up
             if sameItag[0] == -1:
                 sameItag[0] = int(input("Do you want to keep this setting for all the videos(1-Yes/0-No)"))
                 if sameItag[0] == 1:
@@ -57,11 +68,13 @@ while(True):
                     os.system("pytube {} --list".format(video))
                     InputItag = int(input("Enter the itag(Enter -1 to skip this video): "))
 
+            #Option to skip a video normally without raising an error
             if InputItag == -1:
                 os.system("cls")
                 print("skipping {}".format(yt.title))
                 continue
             
+            #Downloading the video
             os.system("pytube {} --itag={}".format(video,InputItag))
     
     elif choice == 3:
