@@ -22,13 +22,17 @@ while(True):
         os.system("pytube {} --list".format(link))
         InputItag = int(input("Enter the itag: "))
 
-        os.system("pytube {} --itag={}".format(link,InputItag))
+        os.system("pytube {} --itag={}".format(link, InputItag))
     
     elif choice == 2 :
 
         playlist_videos=[]
 
         playlist=py.Playlist(input("Enter Clean link: "))
+        print("")
+        
+        #Create a folder to put all the videos
+        os.system("mkdir {}".format(playlist.title))
 
         for url in playlist.video_urls:
             playlist_videos.append(url)
@@ -38,7 +42,7 @@ while(True):
 
         #-------------------------------------------------------------
         #No of videos to create indexing when downloading via playlist
-        no_of_videos = len(playlist_videos)
+        no_of_videos = playlist.length
         index=0
         #-------------------------------------------------------------
 
@@ -75,7 +79,7 @@ while(True):
                 continue
             
             #Downloading the video
-            os.system("pytube {} --itag={}".format(video,InputItag))
+            os.system("cd {} && pytube {} --itag={}".format(playlist.title, video, InputItag))
     
     elif choice == 3:
         video = str(input("Enter the video file name with extension: "))
