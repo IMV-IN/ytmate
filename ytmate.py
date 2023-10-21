@@ -1,5 +1,6 @@
 import os
 import pytube as py
+from pytube import YouTube
 import converter as con
 
 os.system("cls")
@@ -7,15 +8,17 @@ os.system("cls")
 while(True):
     
     #menu
-    print("1. Single Video with link: ")
-    print("2. Full Playlist with link of playlist: ")
-    print("3. Combine video and audio")
-    print("4. Exit ")
+    print("1. Quick download(Most friendly, however may or may not work)")
+    print("2. Single Video with link: ")
+    print("3. Full Playlist with link of playlist: ")
+    print("4. Combine video and audio")
+    print("5. Test ")
+    print("6. Exit")
 
     choice = int(input("Choice: "))
 
     #Single Video
-    if choice == 1:
+    if choice == 2:
 
         video = str(input("Clean link: "))
 
@@ -30,7 +33,7 @@ while(True):
         os.system("pytube {} --itag={}".format(link, InputItag))
     
     #Playlist Download
-    elif choice == 2 :
+    elif choice == 3:
 
         #Get the playlist link
         playlist=py.Playlist(input("Enter Clean link: "))
@@ -93,7 +96,7 @@ while(True):
             #Downloading the video
             os.system("pytube {} --itag={} --target {}".format(video, InputItag, playlist.title))
     
-    elif choice == 3:
+    elif choice == 4:
 
         #Get the video and audio files and the title of the output file
         video = str(input("Enter the video file name with extension: "))
@@ -102,8 +105,21 @@ while(True):
         
         #Convert
         con.convert(video, audio, title)
+    
+    #Quick testing to check if the restricted videos are also downloading
+    elif choice == 5:
+        print("Testing with restricted mode ON")
+        testLinkRestrictOn = "https://youtu.be/O-Ht8U9Q-5U?si=fS0IwB1M9a3ZOpTo"
+        yt = YouTube(testLinkRestrictOn)
+        yt.streams.filter(progressive=True, file_extension="mp4").order_by('resolution').desc().first().download()
 
-    elif choice == 4:
+    #New feature of Quick download
+    elif choice == 1:
+        link = str(input("Enter Clean Link: "))
+        yt = YouTube(link)
+        yt.streams.filter(progressive=True, file_extension="mp4").desc().first().download()
+    
+    elif choice == 6:
 
         os.system("cls")
         print("Thank you!!")

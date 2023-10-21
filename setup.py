@@ -25,7 +25,7 @@ user_directory = Path.home()
 # Print the user directory
 print(user_directory)
 
-innerTube = str(user_directory)+"\AppData\Local\Programs\Python\Python311\Lib\site-packages\pytube\innertube.py"
+innerTube = str(user_directory)+"\AppData\Local\Programs\Python\Python312\Lib\site-packages\pytube\innertube.py"
 
 file = open(innerTube, "r")
 lines = file.readlines()
