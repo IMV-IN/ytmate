@@ -40,7 +40,7 @@ while(True):
 
         #Create a folder to put all the videos
         print("")
-        os.system("mkdir {}".format(playlist.title))
+        os.system("mkdir \"{}\"".format(playlist.title))
 
         #Get the links to all the videos in the playlist
         playlist_videos = []
@@ -94,8 +94,16 @@ while(True):
                 continue
             
             #Downloading the video
-            os.system("pytube {} --itag={} --target {}".format(video, InputItag, playlist.title))
-    
+            os.system("pytube {} --itag={} --target \"{}\"".format(video, InputItag, playlist.title))
+            os.system("pytube {} --itag={} --target \"{}\" -a ".format(video, InputItag, playlist.title))
+
+            #Alert:- You have used a OS specific symbol to fix this# You are forcing mp4 for audio and webm for video
+            #Alert:- You have used a OS specific symbol to fix this# You are forcing mp4 for audio and webm for video
+            #Alert:- You have used a OS specific symbol to fix this# You are forcing mp4 for audio and webm for video
+            con.convert(playlist.title+"//"+yt.title+".webm", playlist.title+"//"+yt.title+".mp4", playlist.title+"/"+yt.title)
+            #Alert:- You have used a OS specific symbol to fix this# You are forcing mp4 for audio and webm for video
+            #Alert:- You have used a OS specific symbol to fix this# You are forcing mp4 for audio and webm for video
+            #Alert:- You have used a OS specific symbol to fix this# You are forcing mp4 for audio and webm for video
     elif choice == 4:
 
         #Get the video and audio files and the title of the output file
