@@ -119,10 +119,12 @@ while(True):
         print("Testing with restricted mode ON")
         testLinkRestrictOn = "https://youtu.be/O-Ht8U9Q-5U?si=fS0IwB1M9a3ZOpTo"
         yt = YouTube(testLinkRestrictOn)
-        if (yt.streams.filter(progressive=True, file_extension="mp4").order_by('resolution').desc().first().download()):
+        try:
+            yt.streams.filter(progressive=True, file_extension="mp4").order_by('resolution').desc().first().download()
             os.system("clear")
+            os.system("rm \"{}\".mp4".format(yt.title))
             print("All Setup")
-        else:
+        except:
             os.system("clear")
             print("Please refer to README.md for setting up the script")
 
