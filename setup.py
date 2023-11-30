@@ -1,6 +1,3 @@
-#   Do not use this file if you dont understand what it does
-#   Usage of this file without full knowledge is not recommended
-
 import os
 import platform as plf
 #Check wheather running windows or not
@@ -56,3 +53,10 @@ fileIn.close()
 fileOut.close()
 
 os.system("rm temp.py")
+
+if is_platform_windows() == "win":
+    os.system("cls")
+else:
+    os.system("clear")
+
+print("Setup Finished !!!")
