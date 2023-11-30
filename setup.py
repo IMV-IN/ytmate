@@ -3,13 +3,12 @@
 
 import os
 import platform as plf
-
 #Check wheather running windows or not
 def is_platform_windows():
     return plf.system() == "win"
 
 #Dependencies
-libs = ["pytube=15.0.0", "moviepy=1.0.3", "pathlib"]
+libs = ["pytube==15.0.0", "moviepy==1.0.3", "pathlib"]
 for lib in libs:
     os.system("pip install {}".format(lib))
 
@@ -17,7 +16,7 @@ from pathlib import Path
 innerTube = None
 
 #Python Version
-index = str(python_version()).find(".")
+index = str(plf.python_version()).find(".")
 
 
 #Platform ke according Path
@@ -25,13 +24,13 @@ if is_platform_windows() == "win":
 
     # Get the user directory
     user_directory = Path.home()
-    pyVersion = str(python_version())[:index]+str(python_version())[index+1:index+3]
+    pyVersion = str(plf.python_version())[:index]+str(plf.python_version())[index+1:index+3]
     innerTube = str(user_directory)+"\AppData\Local\Programs\Python\Python{}\Lib\site-packages\pytube\innertube.py".format(pyVersion)
 else:
     
-    pyVersion = str(python_version())[:index+3]
-    innerTube = "/usr/local/python/{}/lib/python{}/site-packages/pytube/innertube.py".format(python_version(),pyVersion)
-    
+    pyVersion = str(plf.python_version())[:index+3]
+    innerTube = "/usr/local/python/{}/lib/python{}/site-packages/pytube/innertube.py".format(plf.python_version(),pyVersion)
+
 file = open(innerTube, "r")
 lines = file.readlines()
 file_new = open("temp.py","w")
