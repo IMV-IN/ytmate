@@ -95,13 +95,17 @@ while(True):
                 continue
             
             #Downloading the video
-            os.system("pytube {} --itag={} --target \"{}\"".format(video, InputItag, playlist.title))
-            os.system("pytube {} --itag={} --target \"{}\" -a ".format(video, InputItag, playlist.title))
+            os.system("pytube {} --itag={} --target \"{}\"".format(video, InputItag, playlist.title[:20]))
+            os.system("pytube {} --itag={} --target \"{}\" -a ".format(video, InputItag, playlist.title[:20]))
 
+            videoPath = playlist.title+"/"+yt.title+".webm"
+            audioPath = playlist.title+"/"+yt.title+".mp4"
+            titlePath = playlist.title+"/"+yt.title
+            print(len(videoPath), len(audioPath), len(titlePath))
             #Alert:- You have used a OS specific symbol to fix this# You are forcing mp4 for audio and webm for video
             #Alert:- You have used a OS specific symbol to fix this# You are forcing mp4 for audio and webm for video
             #Alert:- You have used a OS specific symbol to fix this# You are forcing mp4 for audio and webm for video
-            con.convert(playlist.title+"/"+yt.title+".webm", playlist.title+"/"+yt.title+".mp4", playlist.title+"/"+yt.title)
+            con.convert(videoPath, audioPath, titlePath)
             #Alert:- You have used a OS specific symbol to fix this# You are forcing mp4 for audio and webm for video
             #Alert:- You have used a OS specific symbol to fix this# You are forcing mp4 for audio and webm for video
             #Alert:- You have used a OS specific symbol to fix this# You are forcing mp4 for audio and webm for video
