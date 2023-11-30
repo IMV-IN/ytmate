@@ -54,3 +54,5 @@ for line in lines:
 
 fileIn.close()
 fileOut.close()
+
+os.system("rm temp.py")

@@ -1,25 +1,19 @@
 # YTMATE
 
-- Bhai dekh videos chahiye in the best possible quality isliye banaya hai
+- Open source alternative to y2mate, without ads, download videos straight from the terminal
 
-## Setup:
-  1. Install Pytube 15.0.0 and moviepy 1.0.3 (Havent tested with newer versions if any)
-  2. Replace the line "223" in the file "innertube.py" at "C:\Users\<USER>\AppData\Local\Programs\Python\Python<version>\Lib\site-packages\pytube" in windows and "/usr/local/python/<version>/lib/python<version>/site-packages/pytube" in linux, with the following bit.
+# Setup:
+  
+  ### Codespaces(Recommended)
+    - As it turns out you can just create a codespace on the main branch and it will automatically set everything up for when it is created.
+    - You can test by running ytmate.py and selecting option 5
+  
 
-```Python
-221  class InnerTube:
-222      """Object for interacting with the innertube API."""
-223      def __init__(self, client='ANDROID', use_oauth=False, allow_cache=True):
-224          """Initialize an InnerTube object.
-225  
-226          :param str client:
-227              Client to use for the object.
-228              Default to web because it returns the most playback types.
-229          :param bool use_oauth:
-```
+  ### Using [setup.py](setup.py)
+    - Just Run the file and its all set
+    - You can test by running ytmate.py and selecting option 5
 
-  4. All set (IG, if you encounter a problem then raise an issue or a PR)
-## Credits:
-- Documentation of Pytube: https://pytube.io/en/latest/index.html
+# Credits:
+- [Documentation of Pytube](https://pytube.io/en/latest/index.html)
 
-- Age-restricted issue: https://stackoverflow.com/questions/75791765/how-to-download-videos-that-require-age-verification-with-pytube
+- [Age-restricted issue](https://stackoverflow.com/questions/75791765/how-to-download-videos-that-require-age-verification-with-pytube)
