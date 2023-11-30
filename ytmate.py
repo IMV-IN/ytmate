@@ -101,7 +101,7 @@ while(True):
             #Alert:- You have used a OS specific symbol to fix this# You are forcing mp4 for audio and webm for video
             #Alert:- You have used a OS specific symbol to fix this# You are forcing mp4 for audio and webm for video
             #Alert:- You have used a OS specific symbol to fix this# You are forcing mp4 for audio and webm for video
-            con.convert(playlist.title+"//"+yt.title+".webm", playlist.title+"//"+yt.title+".mp4", playlist.title+"/"+yt.title)
+            con.convert(playlist.title+"/"+yt.title+".webm", playlist.title+"/"+yt.title+".mp4", playlist.title+"/"+yt.title)
             #Alert:- You have used a OS specific symbol to fix this# You are forcing mp4 for audio and webm for video
             #Alert:- You have used a OS specific symbol to fix this# You are forcing mp4 for audio and webm for video
             #Alert:- You have used a OS specific symbol to fix this# You are forcing mp4 for audio and webm for video
