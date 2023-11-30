@@ -122,8 +122,9 @@ while(True):
         yt = YouTube(testLinkRestrictOn)
         try:
             yt.streams.filter(progressive=True, file_extension="mp4").order_by('resolution').desc().first().download()
-            os.system("clear")
+            os.system("rm setup.py")
             os.system("rm \"{}\".mp4".format(yt.title))
+            os.system("clear")
             print("All Setup")
         except:
             os.system("clear")
@@ -144,4 +145,4 @@ while(True):
     else:
 
         os.system("clear")
-        print("Invalid output!! Try again")
+        print("Invalid Input!! Try again")
