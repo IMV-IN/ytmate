@@ -3,7 +3,7 @@ import pytube as py
 from pytube import YouTube
 import converter as con
 
-os.system("cls")
+os.system("clear")
 
 while(True):
     
@@ -26,11 +26,11 @@ while(True):
         print(yt.title)
 
         #List all formats
-        os.system("pytube {} --list".format(link))
+        os.system("pytube {} --list".format(video))
         InputItag = int(input("Enter the itag: "))
 
         #Download video
-        os.system("pytube {} --itag={}".format(link, InputItag))
+        os.system("pytube {} --itag={}".format(video, InputItag))
     
     #Playlist Download
     elif choice == 3:
@@ -89,7 +89,7 @@ while(True):
             #Option to skip a video normally without raising an error
             if InputItag == -1:
 
-                os.system("cls")
+                os.system("clear")
                 print("skipping {} ....".format(yt.title))
                 continue
             
@@ -119,7 +119,12 @@ while(True):
         print("Testing with restricted mode ON")
         testLinkRestrictOn = "https://youtu.be/O-Ht8U9Q-5U?si=fS0IwB1M9a3ZOpTo"
         yt = YouTube(testLinkRestrictOn)
-        yt.streams.filter(progressive=True, file_extension="mp4").order_by('resolution').desc().first().download()
+        if (yt.streams.filter(progressive=True, file_extension="mp4").order_by('resolution').desc().first().download()):
+            os.system("clear")
+            print("All Setup")
+        else:
+            os.system("clear")
+            print("Please refer to README.md for setting up the script")
 
     #New feature of Quick download
     elif choice == 1:
@@ -129,11 +134,11 @@ while(True):
     
     elif choice == 6:
 
-        os.system("cls")
+        os.system("clear")
         print("Thank you!!")
         break
     
     else:
 
-        os.system("cls")
+        os.system("clear")
         print("Invalid output!! Try again")
