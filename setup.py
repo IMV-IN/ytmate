@@ -1,32 +1,37 @@
 #   Do not use this file if you dont understand what it does
-#   Do not use this file if you dont understand what it does
-#   Do not use this file if you dont understand what it does
-#   Do not use this file if you dont understand what it does
-#   Do not use this file if you dont understand what it does
-#   Do not use this file if you dont understand what it does
-#   Do not use this file if you dont understand what it does
 #   Usage of this file without full knowledge is not recommended
-#   Usage of this file without full knowledge is not recommended
-#   Usage of this file without full knowledge is not recommended
-#   Usage of this file without full knowledge is not recommended
-#   Usage of this file without full knowledge is not recommended
-#   Usage of this file without full knowledge is not recommended
-#   Usage of this file without full knowledge is not recommended
-import os
-libs = ["pytube", "moviepy", "pathlib"]
 
+import os
+import platform as plf
+
+#Check wheather running windows or not
+def is_platform_windows():
+    return plf.system() == "win"
+
+#Dependencies
+libs = ["pytube=15.0.0", "moviepy=1.0.3", "pathlib"]
 for lib in libs:
     os.system("pip install {}".format(lib))
+
 from pathlib import Path
+innerTube = None
 
-# Get the user directory
-user_directory = Path.home()
+#Python Version
+index = str(python_version()).find(".")
 
-# Print the user directory
-print(user_directory)
 
-innerTube = str(user_directory)+"\AppData\Local\Programs\Python\Python312\Lib\site-packages\pytube\innertube.py"
+#Platform ke according Path
+if is_platform_windows() == "win":
 
+    # Get the user directory
+    user_directory = Path.home()
+    pyVersion = str(python_version())[:index]+str(python_version())[index+1:index+3]
+    innerTube = str(user_directory)+"\AppData\Local\Programs\Python\Python{}\Lib\site-packages\pytube\innertube.py".format(pyVersion)
+else:
+    
+    pyVersion = str(python_version())[:index+3]
+    innerTube = "/usr/local/python/{}/lib/python{}/site-packages/pytube/innertube.py".format(python_version(),pyVersion)
+    
 file = open(innerTube, "r")
 lines = file.readlines()
 file_new = open("temp.py","w")
