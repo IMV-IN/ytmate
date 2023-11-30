@@ -55,7 +55,9 @@ fileOut.close()
 os.system("rm temp.py")
 
 if is_platform_windows() == "win":
-    os.system("code ytmate.py && cls")
+    os.system("code ytmate.py")
+    os.system("cls")
 else:
-    os.system("code ytmate.py && clear")
+    os.system("code ytmate.py")
+    os.system("clear")
 print("Setup Finished !!!")
