@@ -1,4 +1,4 @@
-import os
+import subprocess as sbp
 import platform as plf
 #Check wheather running windows or not
 def is_platform_windows():
@@ -7,7 +7,7 @@ def is_platform_windows():
 #Dependencies
 libs = ["pytube==15.0.0", "moviepy==1.0.3", "pathlib"]
 for lib in libs:
-    os.system("pip install {}".format(lib))
+    sbp.run(["pip", "install", "{}".format(lib)])
 
 from pathlib import Path
 innerTube = None
@@ -52,12 +52,12 @@ for line in lines:
 fileIn.close()
 fileOut.close()
 
-os.system("rm temp.py")
+sbp.run(["rm", "temp.py"])
 
 if is_platform_windows() == "win":
-    os.system("code ytmate.py")
-    os.system("cls")
+    sbp.run(["code", "ytmate.py"])
+    sbp.run("cls")
 else:
-    os.system("code ytmate.py")
-    os.system("clear")
+    sbp.run(["code", "ytmate.py"])
+    sbp.run("clear")
 print("Setup Finished !!!")
