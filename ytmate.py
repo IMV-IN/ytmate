@@ -3,8 +3,9 @@ import os
 import pytube as py
 from pytube import YouTube
 import converter as con
+import subprocess as sbp
 
-os.system("clear")
+sbp.run("clear")
 
 while(True):
     
@@ -90,7 +91,7 @@ while(True):
             #Option to skip a video normally without raising an error
             if InputItag == -1:
 
-                os.system("clear")
+                sbp.run("clear")
                 print("skipping {} ....".format(yt.title))
                 continue
             
@@ -126,12 +127,12 @@ while(True):
         yt = YouTube(testLinkRestrictOn)
         try:
             yt.streams.filter(progressive=True, file_extension="mp4").order_by('resolution').desc().first().download()
-            os.system("rm setup.py")
+            sbp.run("rm setup.py",shell=True)
             os.system("rm \"{}\".mp4".format(yt.title))
-            os.system("clear")
+            sbp.run("clear")
             print("All Setup")
         except:
-            os.system("clear")
+            sbp.run("clear")
             print("Please refer to README.md for setting up the script")
 
     #New feature of Quick download
@@ -142,11 +143,11 @@ while(True):
     
     elif choice == 6:
 
-        os.system("clear")
+        sbp.run("clear")
         print("Thank you!!")
         break
     
     else:
 
-        os.system("clear")
+        sbp.run("clear")
         print("Invalid Input!! Try again")
