@@ -1,5 +1,4 @@
 print("Loading....")
-import os
 import pytube as py
 from pytube import YouTube
 import converter as con
@@ -28,11 +27,13 @@ while(True):
         print(yt.title)
 
         #List all formats
-        os.system("pytube {} --list".format(video))
+        sbp.run(["pytube", "{}".format(video), "--list"])
         InputItag = int(input("Enter the itag: "))
 
         #Download video
-        os.system("pytube {} --itag={}".format(video, InputItag))
+        sbp.run(["pytube", "{}".format(video), "--itag={}".format(InputItag)])
+        sbp.run("clear")
+        print("Downloaded !!!")
     
     #Playlist Download
     elif choice == 3:
@@ -42,7 +43,7 @@ while(True):
 
         #Create a folder to put all the videos
         print("")
-        os.system("mkdir \"{}\"".format(playlist.title))
+        sbp.run(["mkdir", "{}".format(playlist.title)])
 
         #Get the links to all the videos in the playlist
         playlist_videos = []
@@ -72,7 +73,7 @@ while(True):
                 InputItag = sameItag[1]
             elif sameItag[0] == 0:
                 
-                os.system("pytube {} --list".format(video))
+                sbp.run(["pytube", "{}".format(video), "--list"])
                 InputItag = int(input("Enter the itag(Enter -1 to skip this video): "))
 
             #used for first time set-up
@@ -81,11 +82,11 @@ while(True):
 
                 if sameItag[0] == 1:
                 
-                    os.system("pytube {} --list".format(video))
+                    sbp.run(["pytube", "{}".format(video), "--list"])
                     sameItag[1] = InputItag = int(input("Enter the itag: "))
                 elif sameItag[0] == 0:
                 
-                    os.system("pytube {} --list".format(video))
+                    sbp.run(["pytube", "{}".format(video), "--list"])
                     InputItag = int(input("Enter the itag(Enter -1 to skip this video): "))
 
             #Option to skip a video normally without raising an error
@@ -96,12 +97,12 @@ while(True):
                 continue
             
             #Downloading the video
-            os.system("pytube {} --itag={} --target \"{}\"".format(video, InputItag, playlist.title[:20]))
-            os.system("pytube {} --itag={} --target \"{}\" -a ".format(video, InputItag, playlist.title[:20]))
+            sbp.run(["pytube", "{}".format(video), "--itag={}".format(InputItag), "--target", "{}".format(playlist.title)])
+            sbp.run(["pytube", "{}".format(video), "--itag={}".format(InputItag), "--target", "{}".format(playlist.title), "-a"])
 
-            videoPath = playlist.title+"/"+yt.title+".webm"
-            audioPath = playlist.title+"/"+yt.title+".mp4"
-            titlePath = playlist.title+"/"+yt.title
+            videoPath = "\"" + playlist.title +"\"" + "/" + "\"" +yt.title+ ".webm\""
+            audioPath = "\"" + playlist.title +"\"" + "/" + "\"" +yt.title+ ".mp4\""
+            titlePath = "\"" + playlist.title +"\"" + "/" + "\"" +yt.title+ "\""
             print(len(videoPath), len(audioPath), len(titlePath))
             #Alert:- You have used a OS specific symbol to fix this# You are forcing mp4 for audio and webm for video
             #Alert:- You have used a OS specific symbol to fix this# You are forcing mp4 for audio and webm for video
@@ -128,7 +129,7 @@ while(True):
         try:
             yt.streams.filter(progressive=True, file_extension="mp4").order_by('resolution').desc().first().download()
             sbp.run("rm setup.py",shell=True)
-            os.system("rm \"{}\".mp4".format(yt.title))
+            sbp.run(["rm", "{}.mp4".format(yt.title)], shell=True)
             sbp.run("clear")
             print("All Setup")
         except:
@@ -140,7 +141,8 @@ while(True):
         link = str(input("Enter Clean Link: "))
         yt = YouTube(link)
         yt.streams.filter(progressive=True, file_extension="mp4").desc().first().download()
-    
+        sbp.run("clear")
+        print("Downloaded !!!")
     elif choice == 6:
 
         sbp.run("clear")
