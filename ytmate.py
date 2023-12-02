@@ -128,8 +128,8 @@ while(True):
         yt = YouTube(testLinkRestrictOn)
         try:
             yt.streams.filter(progressive=True, file_extension="mp4").order_by('resolution').desc().first().download()
-            sbp.run("rm setup.py",shell=True)
-            sbp.run(["rm", "{}.mp4".format(yt.title)], shell=True)
+            sbp.run(["rm", "setup.py"])
+            p1 = sbp.run(["rm", "{}.mp4".format(yt.title)])
             sbp.run("clear")
             print("All Setup")
         except:
