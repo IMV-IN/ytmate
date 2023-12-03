@@ -13,6 +13,7 @@ if is_platform_windows():
     sbp.run(["winget", "install", "ffmpeg"])
 else:
     #Not very comfortable with having used sudo
+    sbp.run(["sudo", "apt", "update"])
     sbp.run(["sudo", "apt", "install", "ffmpeg"])
 
 
