@@ -6,6 +6,21 @@ import subprocess as sbp
 
 sbp.run("clear")
 
+def filterStream(video):
+    #Get the list of itag
+    iTaglist = sbp.run(["pytube", "{}".format(video), "--list"], text=True, stdout=sbp.PIPE)
+    iTaglist = (iTaglist.stdout).split("\n")
+    #Filter out any stream without webm
+    temp = []
+    for stream in iTaglist:
+        try:
+            stream.index("webm")
+            temp.append(stream)
+        except:
+            pass
+    #Print those streams
+    for stream in temp : print(stream)
+
 def sanitizePath(PATH):
     temp = ""
     for char in PATH:
@@ -53,7 +68,7 @@ while(True):
 
         #Create a folder to put all the videos
         print("")
-        sbp.run(["mkdir", "{}".format(playlist.title)])
+        sbp.run(["mkdir", "{}".format(sanitizePath(playlist.title))])
 
         #Get the links to all the videos in the playlist
         playlist_videos = []
@@ -83,24 +98,8 @@ while(True):
                 InputItag = sameItag[1]
             elif sameItag[0] == 0:
 
-                #Since only webm video and mp4 audio can merge therefore 
-                # i am filtering out anything thats not webm for video
+                filterStream(video)
 
-                #Get the list of itag
-                iTaglist = sbp.run(["pytube", "{}".format(video), "--list"], text=True, stdout=sbp.PIPE)
-                iTaglist = (iTaglist.stdout).split("\n")
-                #Filter out any stream without webm
-                temp = []
-                for stream in iTaglist:
-                    try:
-                        stream.index("webm")
-                        temp.append(stream)
-                    except:
-                        pass
-                #Print those streams
-                for stream in temp : print(stream)
-
-                sbp.run(["pytube", "{}".format(video), "--list"])
                 InputItag = int(input("Enter the itag(Enter -1 to skip this video): "))
 
             #used for first time set-up
@@ -162,9 +161,9 @@ while(True):
 
             pwd = sbp.run("pwd", capture_output=True, text=True)
             pwd = (pwd.stdout)[:-1]
-            videoPath = f"temp/{yt.title}.webm"
-            audioPath = f"temp/{yt.title}.mp4"
-            titlePath = f"{playlist.title}/{yt.title}"
+            videoPath = sanitizePath(f"temp/{yt.title}.webm")
+            audioPath = sanitizePath(f"temp/{yt.title}.mp4")
+            titlePath = sanitizePath(f"{playlist.title}/{yt.title}")
             
             #Alert:- You have used a OS specific symbol to fix this# You are forcing mp4 for audio and webm for video
             #Alert:- You have used a OS specific symbol to fix this# You are forcing mp4 for audio and webm for video
