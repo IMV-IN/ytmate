@@ -2,12 +2,19 @@ import subprocess as sbp
 import platform as plf
 #Check wheather running windows or not
 def is_platform_windows():
-    return plf.system() == "win"
+    return plf.system() == "Windows"
 
 #Dependencies
-libs = ["pytube==15.0.0", "moviepy==1.0.3", "pathlib"]
+libs = ["pytube==15.0.0", "ffmpeg-python", "pathlib"]
 for lib in libs:
     sbp.run(["pip", "install", "{}".format(lib)])
+
+if is_platform_windows():
+    sbp.run(["winget", "install", "ffmpeg"])
+else:
+    #Not very comfortable with having used sudo
+    sbp.run(["sudo", "apt", "install", "ffmpeg"])
+
 
 from pathlib import Path
 innerTube = None
@@ -15,9 +22,8 @@ innerTube = None
 #Python Version
 index = str(plf.python_version()).find(".")
 
-
 #Platform ke according Path
-if is_platform_windows() == "win":
+if is_platform_windows():
 
     # Get the user directory
     user_directory = Path.home()
@@ -54,10 +60,8 @@ fileOut.close()
 
 sbp.run(["rm", "temp.py"])
 
-if is_platform_windows() == "win":
-    sbp.run(["code", "ytmate.py"])
+if is_platform_windows():
     sbp.run("cls")
 else:
-    sbp.run(["code", "ytmate.py"])
     sbp.run("clear")
 print("Setup Finished !!!")
