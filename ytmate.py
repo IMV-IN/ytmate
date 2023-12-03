@@ -81,12 +81,44 @@ while(True):
                 sameItag[0] = int(input("Do you want to keep this setting for all the videos(1-Yes/0-No)"))
 
                 if sameItag[0] == 1:
-                
-                    sbp.run(["pytube", "{}".format(video), "--list"])
+
+                    #Since only webm video and mp4 audio can merge therefore 
+                    # i am filtering out anything thats not webm for video
+
+                    #Get the list of itag
+                    iTaglist = sbp.run(["pytube", "{}".format(video), "--list"], text=True, stdout=sbp.PIPE)
+                    iTaglist = (iTaglist.stdout).split("\n")
+                    #Filter out any stream without webm
+                    temp = []
+                    for stream in iTaglist:
+                        try:
+                            stream.index("webm")
+                            temp.append(stream)
+                        except:
+                            pass
+                    #Print those streams
+                    for stream in temp : print(stream)
+
                     sameItag[1] = InputItag = int(input("Enter the itag: "))
                 elif sameItag[0] == 0:
-                
-                    sbp.run(["pytube", "{}".format(video), "--list"])
+
+                    #Since only webm video and mp4 audio can merge therefore 
+                    # i am filtering out anything thats not webm for video
+
+                    #Get the list of itag
+                    iTaglist = sbp.run(["pytube", "{}".format(video), "--list"], text=True, stdout=sbp.PIPE)
+                    iTaglist = (iTaglist.stdout).split("\n")
+                    #Filter out any stream without webm
+                    temp = []
+                    for stream in iTaglist:
+                        try:
+                            stream.index("webm")
+                            temp.append(stream)
+                        except:
+                            pass
+                    #Print those streams
+                    for stream in temp : print(stream)
+
                     InputItag = int(input("Enter the itag(Enter -1 to skip this video): "))
 
             #Option to skip a video normally without raising an error
@@ -99,15 +131,17 @@ while(True):
             #Downloading the video
             sbp.run(["pytube", "{}".format(video), "--itag={}".format(InputItag), "--target", "{}".format(playlist.title)])
             sbp.run(["pytube", "{}".format(video), "--itag={}".format(InputItag), "--target", "{}".format(playlist.title), "-a"])
-
-            videoPath = "\"" + playlist.title +"\"" + "/" + "\"" +yt.title+ ".webm\""
-            audioPath = "\"" + playlist.title +"\"" + "/" + "\"" +yt.title+ ".mp4\""
-            titlePath = "\"" + playlist.title +"\"" + "/" + "\"" +yt.title+ "\""
-            print(len(videoPath), len(audioPath), len(titlePath))
+            pwd = sbp.run("pwd", capture_output=True, text=True)
+            pwd = (pwd.stdout)[:-1]
+            videoPath = f"{pwd}/{playlist.title}/{yt.title}.webm"
+            audioPath = f"{pwd}/{playlist.title}/{yt.title}.mp4"
+            titlePath = f"{pwd}/{playlist.title}/{yt.title}"
+            
             #Alert:- You have used a OS specific symbol to fix this# You are forcing mp4 for audio and webm for video
             #Alert:- You have used a OS specific symbol to fix this# You are forcing mp4 for audio and webm for video
             #Alert:- You have used a OS specific symbol to fix this# You are forcing mp4 for audio and webm for video
             con.convert(videoPath, audioPath, titlePath)
+            sbp.run(["rm", f"{audioPath}"])
             #Alert:- You have used a OS specific symbol to fix this# You are forcing mp4 for audio and webm for video
             #Alert:- You have used a OS specific symbol to fix this# You are forcing mp4 for audio and webm for video
             #Alert:- You have used a OS specific symbol to fix this# You are forcing mp4 for audio and webm for video
