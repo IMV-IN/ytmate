@@ -1,8 +1,6 @@
-from moviepy.editor import VideoFileClip, AudioFileClip
+import ffmpeg as ffm
+import subprocess as sbp
 
 def convert(video, audio, title):
-    video_clip = VideoFileClip(video)
-    audio_clip = AudioFileClip(audio)
-
-    final_clip = video_clip.set_audio(audio_clip)
-    final_clip.write_videofile(title + ".mp4")
+    title+=".mp4"
+    sbp.run(["ffmpeg", "-i", f"{video}", "-i", f"{audio}", "-c", "copy", f"{title}", "-hide_banner"])
