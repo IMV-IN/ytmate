@@ -32,7 +32,10 @@ def sanitizePath(PATH):
     return PATH
 
 while(True):
-    
+    try:
+        sbp.run(["rm", "-rf", "temp"])
+    except:
+        pass
     #menu
     print("1. Quick download(Most friendly, however may or may not work)")
     print("2. Single Video with link: ")
@@ -56,9 +59,13 @@ while(True):
         InputItag = int(input("Enter the itag: "))
 
         #Download video
-        sbp.run(["pytube", "{}".format(video), "--itag={}".format(InputItag)])
-        sbp.run("clear")
-        print("Downloaded !!!")
+        video_Down = sbp.run(["pytube", "{}".format(video), "--itag={}".format(InputItag)])
+        if video_Down.returncode != 0:
+            sbp.run("clear")
+            print("Error Downloading")
+        else:
+            sbp.run("clear")
+            print("Downloaded !!!")
     
     #Playlist Download
     elif choice == 3:
@@ -201,6 +208,7 @@ while(True):
     elif choice == 1:
         link = str(input("Enter Clean Link: "))
         yt = YouTube(link)
+        print("Downloading...")
         yt.streams.filter(progressive=True, file_extension="mp4").desc().first().download()
         sbp.run("clear")
         print("Downloaded !!!")
