@@ -84,8 +84,20 @@ while(True):
 
     choice = int(input("Choice: "))
 
+    #New feature of Quick download
+    if choice == 1:
+        link = str(input("Enter Clean Link: "))
+        yt = YouTube(link)
+        print("Downloading...")
+        try:
+            yt.streams.filter(progressive=True, file_extension="mp4").desc().first().download()
+            sbp.run("clear")
+            print("Downloaded !!!")
+        except:
+            print("Please use on the other options to download the video.")
+    
     #Single Video
-    if choice == 2:
+    elif choice == 2:
 
         video = str(input("Clean link: "))
 
@@ -233,18 +245,6 @@ while(True):
     elif choice == 5:
         print("Testing with restricted mode ON")
         checkRestrictedMode()
-    
-    #New feature of Quick download
-    elif choice == 1:
-        link = str(input("Enter Clean Link: "))
-        yt = YouTube(link)
-        print("Downloading...")
-        try:
-            yt.streams.filter(progressive=True, file_extension="mp4").desc().first().download()
-            sbp.run("clear")
-            print("Downloaded !!!")
-        except:
-            print("Please use on the other options to download the video.")
     
     #Exit
     elif choice == 6:
