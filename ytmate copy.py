@@ -63,7 +63,7 @@ def sanitizePath(PATH):
     temp = ""
     for char in PATH:
         if char == "\'":
-            temp+="\\'"
+            temp+=""
         else:
             temp+=char
     PATH = temp
@@ -132,9 +132,6 @@ while(True):
         videoTitles = []
         for url in playlist.video_urls:
             playlist_videos.append(url)
-        for url in playlist_videos:
-            yt = py.YouTube(url=url)
-            videoTitles.append(yt.title)
 
         #same Itage function: sameItag[0] = flag, and sameItag[1] = value of Itag 
         sameItag = [-1,1]
@@ -151,6 +148,7 @@ while(True):
 
             #Print the title
             yt = py.YouTube(url=video)
+            videoTitles.append(yt.title)
             print(yt.title)
 
             #Checking the sameItag flag
@@ -216,20 +214,18 @@ while(True):
                 continue
             
             #Downloading the video
-            sbp.run(["mkdir", "temp"])
-            sbp.run(["pytube", "{}".format(video), "--itag={}".format(InputItag), "--target", "temp/{}.webm".format(index)])
-            sbp.run(["pytube", "{}".format(video), "--itag={}".format(InputItag), "--target", "temp/{}.mp4".format(index), "-a"])
+            sbp.run(["pytube", "{}".format(video), "--itag={}".format(InputItag), "-f",])
 
-            pwd = sbp.run("pwd", capture_output=True, text=True)
-            pwd = (pwd.stdout)[:-1]
-            videoPath = sanitizePath(f"temp/{index}.webm")
-            audioPath = sanitizePath(f"temp/{index}.mp4")
-            titlePath = sanitizePath(f"{playlist.title}/{index}")
+            #pwd = sbp.run("pwd", capture_output=True, text=True)
+            #pwd = (pwd.stdout)[:-1]
+            #videoPath = sanitizePath(f"temp/{index}.webm")
+            #audioPath = sanitizePath(f"temp/{index}.mp4")
+            #titlePath = sanitizePath(f"{playlist.title}/{index}")
             
             #Alert:- You have used a OS specific symbol to fix this# You are forcing mp4 for audio and webm for video
             #Alert:- You have used a OS specific symbol to fix this# You are forcing mp4 for audio and webm for video
             #Alert:- You have used a OS specific symbol to fix this# You are forcing mp4 for audio and webm for video
-            con.convert(videoPath, audioPath, titlePath)
+            #con.convert(videoPath, audioPath, titlePath)
             #Alert:- You have used a OS specific symbol to fix this# You are forcing mp4 for audio and webm for video
             #Alert:- You have used a OS specific symbol to fix this# You are forcing mp4 for audio and webm for video
             #Alert:- You have used a OS specific symbol to fix this# You are forcing mp4 for audio and webm for video
