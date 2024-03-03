@@ -3,9 +3,47 @@ import pytube as py
 from pytube import YouTube
 import converter as con
 import subprocess as sbp
-
+import setup
+import platform as  plf
 sbp.run("clear")
 
+#####################################################################################################
+def checkRestrictedMode():
+    #Check wheather running windows or not
+    def is_platform_windows():
+        return plf.system() == "Windows"
+        
+    from pathlib import Path
+    innerTube = None
+
+    #Python Version
+    index = str(plf.python_version()).find(".")
+
+    #Platform ke according Path
+    if is_platform_windows():
+
+        # Get the user directory
+        user_directory = Path.home()
+        pyVersion = str(plf.python_version())[:index]+str(plf.python_version())[index+1:index+3]
+        innerTube = str(user_directory)+"\AppData\Local\Programs\Python\Python{}\Lib\site-packages\pytube\innertube.py".format(pyVersion)
+    else:
+        
+        pyVersion = str(plf.python_version())[:index+3]
+        innerTube = "/usr/local/python/{}/lib/python{}/site-packages/pytube/innertube.py".format(plf.python_version(),pyVersion)
+
+    file = open(innerTube, "r")
+    lines = file.readlines()
+    index=0
+    for line in lines:
+        index=index+1
+        if index == 223:
+            if line == "    def __init__(self, client='ANDROID', use_oauth=False, allow_cache=True):\n":
+                file.close()
+                sbp.run("clear")
+                print("All Setup👍")
+            else:
+                setup.setup()
+#####################################################################################################
 def filterStream(video):
     #Get the list of itag
     iTaglist = sbp.run(["pytube", "{}".format(video), "--list"], text=True, stdout=sbp.PIPE)
@@ -20,7 +58,7 @@ def filterStream(video):
             pass
     #Print those streams
     for stream in temp : print(stream)
-
+#####################################################################################################
 def sanitizePath(PATH):
     temp = ""
     for char in PATH:
@@ -30,7 +68,7 @@ def sanitizePath(PATH):
             temp+=char
     PATH = temp
     return PATH
-
+#####################################################################################################
 while(True):
     try:
         sbp.run(["rm", "-rf", "temp"])
@@ -38,10 +76,10 @@ while(True):
         pass
     #menu
     print("1. Quick download(Most friendly, however may or may not work)")
-    print("2. Single Video with link: ")
-    print("3. Full Playlist with link of playlist: ")
+    print("2. Single Video with link")
+    print("3. Full Playlist with link of playlist")
     print("4. Combine video and audio")
-    print("5. Test ")
+    print("5. Setup(If this is your firs time running the program)")
     print("6. Exit")
 
     choice = int(input("Choice: "))
@@ -179,6 +217,8 @@ while(True):
             #Alert:- You have used a OS specific symbol to fix this# You are forcing mp4 for audio and webm for video
             #Alert:- You have used a OS specific symbol to fix this# You are forcing mp4 for audio and webm for video
             #Alert:- You have used a OS specific symbol to fix this# You are forcing mp4 for audio and webm for video
+    
+    #Combine Audio and Video
     elif choice == 4:
 
         #Get the video and audio files and the title of the output file
@@ -192,32 +232,28 @@ while(True):
     #Quick testing to check if the restricted videos are also downloading
     elif choice == 5:
         print("Testing with restricted mode ON")
-        testLinkRestrictOn = "https://youtu.be/O-Ht8U9Q-5U?si=fS0IwB1M9a3ZOpTo"
-        yt = YouTube(testLinkRestrictOn)
-        try:
-            yt.streams.filter(progressive=True, file_extension="mp4").order_by('resolution').desc().first().download()
-            sbp.run(["rm", "setup.py"])
-            p1 = sbp.run(["rm", "{}.mp4".format(yt.title)])
-            sbp.run("clear")
-            print("All Setup")
-        except:
-            sbp.run("clear")
-            print("Please refer to README.md for setting up the script")
-
+        checkRestrictedMode()
+    
     #New feature of Quick download
     elif choice == 1:
         link = str(input("Enter Clean Link: "))
         yt = YouTube(link)
         print("Downloading...")
-        yt.streams.filter(progressive=True, file_extension="mp4").desc().first().download()
-        sbp.run("clear")
-        print("Downloaded !!!")
+        try:
+            yt.streams.filter(progressive=True, file_extension="mp4").desc().first().download()
+            sbp.run("clear")
+            print("Downloaded !!!")
+        except:
+            print("Please use on the other options to download the video.")
+    
+    #Exit
     elif choice == 6:
 
         sbp.run("clear")
         print("Thank you!!")
         break
     
+    #Invalid input
     else:
 
         sbp.run("clear")
