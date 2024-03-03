@@ -17,3 +17,6 @@
 - [Documentation of Pytube](https://pytube.io/en/latest/index.html)
 
 - [Age-restricted issue](https://stackoverflow.com/questions/75791765/how-to-download-videos-that-require-age-verification-with-pytube)
+
+# CONTRIBUTE
+- Please read [this](CONTRIBUTING.md) before contributing.
