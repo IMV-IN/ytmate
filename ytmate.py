@@ -37,7 +37,7 @@ def checkRestrictedMode():
     for line in lines:
         index=index+1
         if index == 223:
-            if line == "    def __init__(self, client='ANDROID', use_oauth=False, allow_cache=True):\n":
+            if line[31:38] == "ANDROID":
                 file.close()
                 sbp.run("clear")
                 print("All Setup👍")
@@ -90,11 +90,11 @@ while(True):
         yt = YouTube(link)
         print("Downloading...")
         try:
-            yt.streams.filter(progressive=True, file_extension="mp4").desc().first().download()
+            errorCode = yt.streams.filter(progressive=True, file_extension="mp4").desc().first().download()
             sbp.run("clear")
             print("Downloaded !!!")
         except:
-            print("Please use on the other options to download the video.")
+            print(f"Please use on the other options to download the video.")
     
     #Single Video
     elif choice == 2:
