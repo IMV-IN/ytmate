@@ -14,8 +14,8 @@ def setup():
         sbp.run(["winget", "install", "ffmpeg"])
     else:
         #Not very comfortable with having used sudo
-        sbp.run(["sudo", "apt", "update"])
-        sbp.run(["sudo", "apt", "install", "ffmpeg"])
+        sbp.run(["sudo", "apt", "update", "-y"])
+        sbp.run(["sudo", "apt", "install", "ffmpeg", "-y"])
 #####################################################################################################
     from pathlib import Path
     innerTube = None
