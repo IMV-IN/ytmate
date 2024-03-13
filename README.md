@@ -1,3 +1,5 @@
+# ⚠️⚠️This version is no longer supported or maintained for bug or security fixes⚠️⚠️
+
 # YTMATE
 
 - Open source alternative to y2mate, without ads, download videos straight from the terminal
