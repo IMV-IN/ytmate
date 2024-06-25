@@ -7,9 +7,10 @@ def setup():
         return plf.system() == "Windows"
 #####################################################################################################
     #Dependencies
-    libs = ["pytube==15.0.0", "ffmpeg-python", "pathlib"]
+    libs = ["ffmpeg-python", "pathlib"]
     for lib in libs:
         sbp.run(["pip", "install", "{}".format(lib)])
+    sbp.run(["python", "-m", "pip", "install", "git+https://github.com/pytube/pytube"])
     if is_platform_windows():
         sbp.run(["winget", "install", "ffmpeg"])
     else:
@@ -42,6 +43,24 @@ def setup():
         index=index+1
         if index == 223:
             file_new.write("    def __init__(self, client='ANDROID', use_oauth=False, allow_cache=True):\n")
+            continue
+        if index == 48:
+            file_new.write("                    'clientVersion': '19.08.35',\n")
+            continue
+        if index == 61:
+            file_new.write("                    'clientVersion': '19.08.35',\n")
+            continue
+        if index == 88:
+            file_new.write("                    'clientVersion': '19.08.35',\n")
+            continue
+        if index == 102:
+            file_new.write("                    'clientVersion': '19.08.35',\n")
+            continue
+        if index == 141:
+            file_new.write("                    'clientVersion': '6.41',\n")
+            continue
+        if index == 128:
+            file_new.write("                    'clientVersion': '6.40.52',\n")
             continue
         file_new.write(line)
     file.close()
