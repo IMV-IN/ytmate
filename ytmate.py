@@ -37,7 +37,7 @@ def checkRestrictedMode():
     for line in lines:
         index=index+1
         if index == 223:
-            if line[31:38] == "ANDROID":
+            if line == "    def __init__(self, client='ANDROID', use_oauth=False, allow_cache=True):\n":
                 file.close()
                 sbp.run("clear")
                 print("All Setup👍")
@@ -63,7 +63,7 @@ def sanitizePath(PATH):
     temp = ""
     for char in PATH:
         if char == "\'":
-            temp+="\\'"
+            temp+=""
         else:
             temp+=char
     PATH = temp
@@ -74,32 +74,32 @@ while(True):
         sbp.run(["rm", "-rf", "temp"])
     except:
         pass
-    try:
-        #menu
-        print("1. Quick download(Most friendly, however may or may not work)")
-        print("2. Single Video with link")
-        print("3. Full Playlist with link of playlist")
-        print("4. Combine video and audio")
-        print("5. Setup(If this is your firs time running the program)")
-        print("6. Exit")
+    #menu
+    print("1. Quick download(Most friendly, however may or may not work)")
+    print("2. Single Video with link")
+    print("3. Full Playlist with link of playlist")
+    print("4. Combine video and audio")
+    print("5. Setup(If this is your firs time running the program)")
+    print("6. Exit")
 
-        choice = int(input("Choice: "))
+    choice = int(input("Choice: "))
 
-        #New feature of Quick download
-        if choice == 1:
-            link = str(input("Enter Clean Link: "))
-            yt = YouTube(link)
-            print("Downloading...")
-            try:
-                errorCode = yt.streams.filter(progressive=True, file_extension="mp4").desc().first().download()
-                sbp.run("clear")
-                print("Downloaded !!!")
-            except:
-                print(f"Please use on the other options to download the video.")
-        
-        #Single Video
-        elif choice == 2:
+    #New feature of Quick download
+    if choice == 1:
+        link = str(input("Enter Clean Link: "))
+        yt = YouTube(link)
+        print("Downloading...")
+        try:
+            yt.streams.filter(progressive=True, file_extension="mp4").desc().first().download()
+            sbp.run("clear")
+            print("Downloaded !!!")
+        except:
+            print("Please use the other options to download the video.")
+    
+    #Single Video
+    elif choice == 2:
 
+        try:
             video = str(input("Clean link: "))
 
             yt = py.YouTube(url=video)
@@ -117,10 +117,13 @@ while(True):
             else:
                 sbp.run("clear")
                 print("Downloaded !!!")
-        
-        #Playlist Download
-        elif choice == 3:
+        except:
+            print("Please use other options or try again later.")
 
+    #Playlist Download
+    elif choice == 3:
+
+        try:
             #Get the playlist link
             playlist=py.Playlist(input("Enter Clean link: "))
 
@@ -130,6 +133,7 @@ while(True):
 
             #Get the links to all the videos in the playlist
             playlist_videos = []
+            videoTitles = []
             for url in playlist.video_urls:
                 playlist_videos.append(url)
 
@@ -148,6 +152,7 @@ while(True):
 
                 #Print the title
                 yt = py.YouTube(url=video)
+                videoTitles.append(yt.title)
                 print(yt.title)
 
                 #Checking the sameItag flag
@@ -213,27 +218,27 @@ while(True):
                     continue
                 
                 #Downloading the video
-                sbp.run(["mkdir", "temp"])
-                sbp.run(["pytube", "{}".format(video), "--itag={}".format(InputItag), "--target", "temp/"])
-                sbp.run(["pytube", "{}".format(video), "--itag={}".format(InputItag), "--target", "temp/", "-a"])
+                sbp.run(["pytube", "{}".format(video), "--itag={}".format(InputItag), "-f",])
 
-                pwd = sbp.run("pwd", capture_output=True, text=True)
-                pwd = (pwd.stdout)[:-1]
-                videoPath = sanitizePath(f"temp/{yt.title}.webm")
-                audioPath = sanitizePath(f"temp/{yt.title}.mp4")
-                titlePath = sanitizePath(f"{playlist.title}/{yt.title}")
+                #pwd = sbp.run("pwd", capture_output=True, text=True)
+                #pwd = (pwd.stdout)[:-1]
+                #videoPath = sanitizePath(f"temp/{index}.webm")
+                #audioPath = sanitizePath(f"temp/{index}.mp4")
+                #titlePath = sanitizePath(f"{playlist.title}/{index}")
                 
                 #Alert:- You have used a OS specific symbol to fix this# You are forcing mp4 for audio and webm for video
                 #Alert:- You have used a OS specific symbol to fix this# You are forcing mp4 for audio and webm for video
                 #Alert:- You have used a OS specific symbol to fix this# You are forcing mp4 for audio and webm for video
-                con.convert(videoPath, audioPath, titlePath)
+                #con.convert(videoPath, audioPath, titlePath)
                 #Alert:- You have used a OS specific symbol to fix this# You are forcing mp4 for audio and webm for video
                 #Alert:- You have used a OS specific symbol to fix this# You are forcing mp4 for audio and webm for video
                 #Alert:- You have used a OS specific symbol to fix this# You are forcing mp4 for audio and webm for video
-        
-        #Combine Audio and Video
-        elif choice == 4:
+        except:
+            print("Please use other options or try again later.")
 
+    #Combine Audio and Video
+    elif choice == 4:
+        try:
             #Get the video and audio files and the title of the output file
             video = str(input("Enter the video file name with extension: "))
             audio = str(input("Enter the audio file name with extension: "))
@@ -241,23 +246,23 @@ while(True):
             
             #Convert
             con.convert(video, audio, title)
-        
-        #Quick testing to check if the restricted videos are also downloading
-        elif choice == 5:
-            print("Testing with restricted mode ON")
-            checkRestrictedMode()
-        
-        #Exit
-        elif choice == 6:
+        except:
+            print("Please use other options or try again later.")
+            
+    #Quick testing to check if the restricted videos are also downloading
+    elif choice == 5:
+        print("Testing with restricted mode ON")
+        checkRestrictedMode()
+    
+    #Exit
+    elif choice == 6:
 
-            sbp.run("clear")
-            print("Thank you!!")
-            break
-        
-        #Invalid input
-        else:
+        sbp.run("clear")
+        print("Thank you!!")
+        break
+    
+    #Invalid input
+    else:
 
-            sbp.run("clear")
-            print("Invalid Input!! Try again")
-    except:
-        print("Please enter a valid input.")
+        sbp.run("clear")
+        print("Invalid Input!! Try again")
