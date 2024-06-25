@@ -98,28 +98,58 @@ while(True):
     
     #Single Video
     elif choice == 2:
-
+        video = str(input("Clean link: "))
+        yt = py.YouTube(url=video)    
         try:
-            video = str(input("Clean link: "))
-
-            yt = py.YouTube(url=video)
             print(yt.title)
-
+            videoStreams=yt.streams.filter(file_extension="webm", only_video=True)
+            iTags = []
+            for stream in videoStreams:
+                list = (str)(stream).split('"')
+                iTags.append(list[1]);
+                print(f"Input \"{list[1]}\" for \"{list[5]}\" resolution")
             #List all formats
-            sbp.run(["pytube", "{}".format(video), "--list"])
-            InputItag = int(input("Enter the itag: "))
+            InputItag = -1
+            while(InputItag not in iTags):
+                InputItag = str(input("Enter the itag: "))
 
             #Download video
             video_Down = sbp.run(["pytube", "{}".format(video), "--itag={}".format(InputItag)])
             if video_Down.returncode != 0:
                 sbp.run("clear")
                 print("Error Downloading")
+                
             else:
                 sbp.run("clear")
                 print("Downloaded !!!")
         except:
             print("Please use other options or try again later.")
+        
+        try:
+            print(yt.title)
+            audioStreams=yt.streams.filter(file_extension="mp4", only_audio=True)
+            iTags = []
+            for stream in audioStreams:
+                list = (str)(stream).split('"')
+                iTags.append(list[1]);
+                print(f"Input {list[1]} for \"{list[5]}\" & \"{list[7]}\" audio codec")
+            #List all formats
+            InputItag = -1
+            while(InputItag not in iTags):
+                InputItag = str(input("Enter the itag: "))
 
+            #Download video
+            audio_Down = sbp.run(["pytube", "{}".format(video), "--itag={}".format(InputItag)])
+            if audio_Down.returncode != 0:
+                sbp.run("clear")
+                print("Error Downloading")
+                
+            else:
+                sbp.run("clear")
+                print("Downloaded !!!")
+        except:
+            print("Please use other options or try again later.")
+        
     #Playlist Download
     elif choice == 3:
 
