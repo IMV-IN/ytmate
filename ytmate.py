@@ -62,8 +62,8 @@ def filterStream(video):
 def sanitizePath(PATH):
     temp = ""
     for char in PATH:
-        if char == "\'":
-            temp+=""
+        if char not in "qwertyuiopasdfghjklzxcvbnm1234567890QWERTYUIOPASDFGHJKLZXCVBNM":
+            temp+=" "
         else:
             temp+=char
     PATH = temp
@@ -99,7 +99,7 @@ while(True):
     #Single Video
     elif choice == 2:
         video = str(input("Clean link: "))
-        yt = py.YouTube(url=video)    
+        yt = py.YouTube(url=video)
         try:
             print(yt.title)
             videoStreams=yt.streams.filter(file_extension="webm", only_video=True)
@@ -118,14 +118,12 @@ while(True):
             if video_Down.returncode != 0:
                 sbp.run("clear")
                 print("Error Downloading")
-                
+                RuntimeWarning
             else:
+                sbp.run(["mv", "$(ls", "|", "grep", "'.webm')", "{}.webm".format(sanitizePath(yt.title))])
                 sbp.run("clear")
                 print("Downloaded !!!")
-        except:
-            print("Please use other options or try again later.")
-        
-        try:
+            ###########################################################################################
             print(yt.title)
             audioStreams=yt.streams.filter(file_extension="mp4", only_audio=True)
             iTags = []
@@ -138,21 +136,26 @@ while(True):
             while(InputItag not in iTags):
                 InputItag = str(input("Enter the itag: "))
 
-            #Download video
+            #Download audio
             audio_Down = sbp.run(["pytube", "{}".format(video), "--itag={}".format(InputItag)])
             if audio_Down.returncode != 0:
                 sbp.run("clear")
                 print("Error Downloading")
-                
+                RuntimeWarning
             else:
+                sbp.run(["mv", "$(ls", "|", "grep", "'.mp4')", "{}.mp4".format(sanitizePath(yt.title))])
                 sbp.run("clear")
                 print("Downloaded !!!")
         except:
-            print("Please use other options or try again later.")
-        
+            print("Downloading...")
+            try:
+                yt.streams.filter(progressive=True, file_extension="mp4").desc().first().download()
+                sbp.run("clear")
+                print("Video Downloaded !!!")
+            except:
+                print("Please use the other options to download the video.")
     #Playlist Download
     elif choice == 3:
-
         try:
             #Get the playlist link
             playlist=py.Playlist(input("Enter Clean link: "))

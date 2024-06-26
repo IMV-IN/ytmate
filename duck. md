@@ -1,3 +1,3 @@
-So i am going to now shift to youtube-dl 
-Pytube was good and easy to start with,
-now i think using youtube-dl will be better
+So here is what is going to happen
+- to fix the playlist issue i am going to sanitize every path and title to just have alphabets and numbers which can be done using the "in" feature of python by just checking each character to be "in the alphabets"
+- i am going to remove the filter stream function probably and just implement the merger in the second option
