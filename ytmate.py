@@ -120,7 +120,13 @@ while(True):
                 print("Error Downloading")
                 RuntimeWarning
             else:
-                sbp.run(["mv", "$(ls", "|", "grep", "'.webm')", "{}.webm".format(sanitizePath(yt.title))])
+                name = sbp.run(["ls"], capture_output=True)
+                name = name.stdout.decode('ascii')
+                name = name.split(sep="\n")
+                for item in name:
+                    if ".webm" in item:
+                        name = item
+                sbp.run(["mv", "{}".format(name), "{}.mp4".format(sanitizePath(yt.title))])
                 sbp.run("clear")
                 print("Downloaded !!!")
             ###########################################################################################
@@ -143,7 +149,13 @@ while(True):
                 print("Error Downloading")
                 RuntimeWarning
             else:
-                sbp.run(["mv", "$(ls", "|", "grep", "'.mp4')", "{}.mp4".format(sanitizePath(yt.title))])
+                name = sbp.run(["ls"], capture_output=True)
+                name = name.stdout.decode('ascii')
+                name = name.split(sep="\n")
+                for item in name:
+                    if ".mp4" in item:
+                        name = item
+                sbp.run(["mv", "{}".format(name), "{}.mp4".format(sanitizePath(yt.title))])
                 sbp.run("clear")
                 print("Downloaded !!!")
         except:
