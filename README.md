@@ -1,3 +1,4 @@
+⚠️⚠️⚠️ Project no longer maintained and retired due to depreciation of dependencies ⚠️⚠️⚠️
 # YTMATE
 
 - Open source alternative to y2mate, without ads, download videos straight from the terminal
