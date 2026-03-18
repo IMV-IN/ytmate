@@ -1,52 +1,74 @@
 def setup():
-    #Imports
+    # Imports
+    import sys
     import subprocess as sbp
     import platform as plf
-    #Check wheather running windows or not
+    import os
+
+    # Check wheather running windows or not
     def is_platform_windows():
         return plf.system() == "Windows"
-#####################################################################################################
-    #Dependencies
+
+    #####################################################################################################
+    # Dependencies
     if is_platform_windows():
         sbp.run(["winget", "install", "ffmpeg"])
     else:
-        #Not very comfortable with having used sudo
+        # Not very comfortable with having used sudo
         sbp.run(["sudo", "apt", "update", "-y"])
         sbp.run(["sudo", "apt", "install", "ffmpeg", "python3-venv", "-y"])
-        sbp.run(["python3", "-m", "venv", "venv"])
-        sbp.run(["source", "venv/bin/activate"])
+
+        # import the venv module to create virtual environment
+        import venv
+
+        env_builder = venv.EnvBuilder(with_pip=True, clear=True)
+        env_builder.create("venv")
 
     libs = ["ffmpeg-python", "pathlib"]
+
+    python_executable = os.path.join("venv","bin", "python")
     for lib in libs:
-        sbp.run(["pip", "install", "{}".format(lib)])
-    sbp.run(["python", "-m", "pip", "install", "git+https://github.com/pytube/pytube"])
-    
-#####################################################################################################
-    from pathlib import Path
+        sbp.check_call([python_executable, "-m", "pip", "install", "{}".format(lib)])
+    # sbp.run(["python", "-m", "pip", "install", "git+https://github.com/pytube/pytube"])
+
+    #####################################################################################################
+    '''from pathlib import Path
+
     innerTube = None
 
-    #Python Version
+    # Python Version
     index = str(plf.python_version()).find(".")
-    
-    #Platform ke according Path
+
+    # Platform ke according Path
     if is_platform_windows():
         # Get the user directory
         user_directory = Path.home()
-        pyVersion = str(plf.python_version())[:index]+str(plf.python_version())[index+1:index+3]
-        innerTube = str(user_directory)+"\\AppData\\Local\\Programs\\Python\\Python{}\\Lib\\site-packages\\pytube\\innertube.py".format(pyVersion)
+        pyVersion = (
+            str(plf.python_version())[:index]
+            + str(plf.python_version())[index + 1 : index + 3]
+        )
+        innerTube = str(
+            user_directory
+        ) + "\\AppData\\Local\\Programs\\Python\\Python{}\\Lib\\site-packages\\pytube\\innertube.py".format(
+            pyVersion
+        )
     else:
-        pyVersion = str(plf.python_version())[:index+3]
-        innerTube = "/usr/local/python/{}/lib/python{}/site-packages/pytube/innertube.py".format(plf.python_version(),pyVersion)
-#####################################################################################################
-    #Prepare for swapping
+        pyVersion = str(plf.python_version())[: index + 3]
+        innerTube = "/usr/local/python/{}/lib/python{}/site-packages/pytube/innertube.py".format(
+            plf.python_version(), pyVersion
+        )
+    #####################################################################################################
+    # Prepare for swapping
     file = open(innerTube, "r")
     lines = file.readlines()
-    file_new = open("temp.py","w")
-    index=0
+    file_new = open("temp.py", "w")
+    index = 0
     for line in lines:
-        index=index+1
+        index = index + 1
         if index == 223:
-            file_new.write("    def __init__(self, client='ANDROID', use_oauth=False, allow_cache=True):\n")
+            file_new.write(
+                "    def __init__(self, client='ANDROID', use_oauth=False, allow_cache=True):\n"
+            )
             continue
         if index == 48:
             file_new.write("                    'clientVersion': '19.08.35',\n")
@@ -69,23 +91,26 @@ def setup():
         file_new.write(line)
     file.close()
     file_new.close()
-#####################################################################################################
-    #Do the swap
+    #####################################################################################################
+    # Do the swap
     fileOut = open(innerTube, "w")
-    fileIn = open("temp.py","r")
+    fileIn = open("temp.py", "r")
     lines = fileIn.readlines()
     for line in lines:
         fileOut.write(line)
     fileIn.close()
     fileOut.close()
-#####################################################################################################
-    #Exit
+    #####################################################################################################
+    # Exit
     sbp.run(["rm", "temp.py"])
     if is_platform_windows():
         sbp.run("cls")
     else:
         sbp.run("clear")
     print("Setup Finished !!!")
+    '''
+
+
 #####################################################################################################
 
 if __name__ == "__main__":
