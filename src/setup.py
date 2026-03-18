@@ -4,6 +4,7 @@ def setup():
     import subprocess as sbp
     import platform as plf
     import os
+    import venv
 
     # Check wheather running windows or not
     def is_platform_windows():
@@ -18,15 +19,17 @@ def setup():
         sbp.run(["sudo", "apt", "update", "-y"])
         sbp.run(["sudo", "apt", "install", "ffmpeg", "python3-venv", "-y"])
 
-        # import the venv module to create virtual environment
-        import venv
-
-        env_builder = venv.EnvBuilder(with_pip=True, clear=True)
-        env_builder.create("venv")
+    # Create the virtual environment (on all platforms)
+    env_builder = venv.EnvBuilder(with_pip=True, clear=True)
+    env_builder.create("venv")
 
     libs = ["ffmpeg-python", "pathlib"]
 
-    python_executable = os.path.join("venv","bin", "python")
+    if is_platform_windows():
+        python_executable = os.path.join("venv", "Scripts", "python.exe")
+    else:
+        python_executable = os.path.join("venv", "bin", "python")
+
     for lib in libs:
         sbp.check_call([python_executable, "-m", "pip", "install", "{}".format(lib)])
     # sbp.run(["python", "-m", "pip", "install", "git+https://github.com/pytube/pytube"])
