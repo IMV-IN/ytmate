@@ -7,16 +7,20 @@ def setup():
         return plf.system() == "Windows"
 #####################################################################################################
     #Dependencies
-    libs = ["ffmpeg-python", "pathlib"]
-    for lib in libs:
-        sbp.run(["pip", "install", "{}".format(lib)])
-    sbp.run(["python", "-m", "pip", "install", "git+https://github.com/pytube/pytube"])
     if is_platform_windows():
         sbp.run(["winget", "install", "ffmpeg"])
     else:
         #Not very comfortable with having used sudo
         sbp.run(["sudo", "apt", "update", "-y"])
-        sbp.run(["sudo", "apt", "install", "ffmpeg", "-y"])
+        sbp.run(["sudo", "apt", "install", "ffmpeg", "python3-venv", "-y"])
+        sbp.run(["python3", "-m", "venv", "venv"])
+        sbp.run(["source", "venv/bin/activate"])
+
+    libs = ["ffmpeg-python", "pathlib"]
+    for lib in libs:
+        sbp.run(["pip", "install", "{}".format(lib)])
+    sbp.run(["python", "-m", "pip", "install", "git+https://github.com/pytube/pytube"])
+    
 #####################################################################################################
     from pathlib import Path
     innerTube = None
@@ -29,7 +33,7 @@ def setup():
         # Get the user directory
         user_directory = Path.home()
         pyVersion = str(plf.python_version())[:index]+str(plf.python_version())[index+1:index+3]
-        innerTube = str(user_directory)+"\AppData\Local\Programs\Python\Python{}\Lib\site-packages\pytube\innertube.py".format(pyVersion)
+        innerTube = str(user_directory)+"\\AppData\\Local\\Programs\\Python\\Python{}\\Lib\\site-packages\\pytube\\innertube.py".format(pyVersion)
     else:
         pyVersion = str(plf.python_version())[:index+3]
         innerTube = "/usr/local/python/{}/lib/python{}/site-packages/pytube/innertube.py".format(plf.python_version(),pyVersion)
